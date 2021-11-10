@@ -13,7 +13,7 @@ use \SEPA\Factory\XmlGeneratorFactory AS SEPAXmlGeneratorFactory;
  *
  * @package SEPA
  */
-class SEPAXmlFile
+class SepaXmlFile
 {
     /**
      * ISO PATH RULES

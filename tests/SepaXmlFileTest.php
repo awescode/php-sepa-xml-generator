@@ -1,16 +1,19 @@
 <?php
-/**
- * Created by Dumitru Russu.
- * Date: 27.01.2014
- * Time: 22:00
- * ${NAMESPACE}\${NAME}
- */
 
-class SepaXmlFileTest extends \PHPUnit\Framework\TestCase
+namespace Tests;
+
+use PHPUnit\Framework\TestCase;
+use SEPA\Factory\XmlGeneratorFactory;
+use SEPA\SepaXmlFile;
+
+class SepaXmlFileTest extends TestCase
 {
+    /**
+     * @throws \Exception
+     */
     public function testSaveFile()
     {
-        $SEPAXml = new \SEPA\SEPAXmlFile();
+        $SEPAXml = new SepaXmlFile();
 
         $SEPAXml::$_XML_FILES_REPOSITORY = realpath(__DIR__) . '/xml_files/';
         $SEPAXml::$_FILE_NAME = 'sepa_test.xml';
@@ -35,7 +38,7 @@ class SepaXmlFileTest extends \PHPUnit\Framework\TestCase
 //				'proprietary_name' => 'SEPA', //default value is = 'SEPA', You can SET only proprietary_name OR schema_name
 //				'schema_name' => 'CORE', // default value is = 'CORE', You can SET only proprietary_name OR schema_name
                         'transactions' => array(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(3)
                                 ->setEndToEndIdentification(39)
                                 ->setInstructedAmount(100.5)

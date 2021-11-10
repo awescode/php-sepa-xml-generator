@@ -1,23 +1,26 @@
 <?php
 
-/**
- * Created by Dumitru Russu.
- * Date: 27.01.2014
- * Time: 20:51
- * SEPA\XMLGeneratorFactory
- */
+namespace Tests;
 
-class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+use SEPA\Factory\XmlGeneratorFactory;
+use SEPA\PaymentInfo;
+use SEPA\XMLGenerator;
+
+class XMLGeneratorFactoryTest extends TestCase
 {
+    /**
+     * @throws \Exception
+     */
     public function testCreateXmlFile()
     {
-        $xmlFile = SEPA\Factory\XMLGeneratorFactory::createXmlGeneratorObject()->addXmlMessage(
-            SEPA\Factory\XMLGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
-                SEPA\Factory\XMLGeneratorFactory::createXMLGroupHeader()
+        $xmlFile = XmlGeneratorFactory::createXmlGeneratorObject()->addXmlMessage(
+            XmlGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
+                XmlGeneratorFactory::createXMLGroupHeader()
                     ->setMessageIdentification(1)
                     ->setInitiatingPartyName('Amazing SRL ???? ыаывпавпва'))
                 ->addMessagePaymentInfo(
-                    SEPA\Factory\XMLGeneratorFactory::createXMLPaymentInfo()
+                    XmlGeneratorFactory::createXMLPaymentInfo()
                         ->setPaymentInformationIdentification(6222)
                         ->setSequenceType('FRST')
                         ->setCreditorAccountIBAN('MD24 AG00 0225 1000 1310 4168')
@@ -25,7 +28,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                         ->setCreditorSchemeIdentification('FR07ZZZ519993')
                         ->setRequestedCollectionDate('2013-08-06')
                         ->addDirectDebitTransaction( //First transaction
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(3)
                                 ->setEndToEndIdentification(3)
                                 ->setInstructedAmount(100.5)
@@ -38,7 +41,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setDirectDebitInvoice(122)
                         )
                         ->addDirectDebitTransaction( //Second transaction are the same client transaction
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(4)
                                 ->setEndToEndIdentification(4)
                                 ->setInstructedAmount(100.5)
@@ -50,7 +53,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
 //						->setCurrency('EUR')
                                 ->setDirectDebitInvoice(122))
                         ->addDirectDebitTransaction( //An other client Transaction
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(6)
                                 ->setEndToEndIdentification(6)
                                 ->setInstructedAmount(100.5)
@@ -67,18 +70,22 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($xmlFile);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateCreditTransferXmlFile00100102()
     {
-        $xmlFile = SEPA\Factory\XMLGeneratorFactory::createXmlGeneratorObject(\SEPA\XMLGenerator::PAIN_001_001_02)->addXmlMessage(
-            SEPA\Factory\XMLGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
+        $xmlFile = XmlGeneratorFactory::createXmlGeneratorObject(XMLGenerator::PAIN_001_001_02)
+            ->addXmlMessage(
+            XmlGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
 
-                SEPA\Factory\XMLGeneratorFactory::createXMLGroupHeader()
+                XmlGeneratorFactory::createXMLGroupHeader()
                     ->setMessageIdentification(1)
                     ->setInitiatingPartyName('Amazing SRL ???? ыаывпавпва')
                     ->setAddressLine('Chisinau, str. Stefan Cel Mare 145')->setCountry('Moldova') // Optional
             )
                 ->addMessagePaymentInfo(
-                    SEPA\Factory\XMLGeneratorFactory::createXMLPaymentInfo()
+                    XmlGeneratorFactory::createXMLPaymentInfo()
                         ->setAggregatePerMandate(false)
                         ->setPaymentInformationIdentification(6222)
                         ->setDebitorAccountIBAN('MD24 AG00 0225 1000 1310 4168')
@@ -86,7 +93,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                         ->setDebitorName('Amazing SRL')
                         ->setRequestedCollectionDate('2013-08-06')
                         ->addCreditTransferTransaction(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLCreditTransferTransaction()
+                            XmlGeneratorFactory::createXMLCreditTransferTransaction()
                                 ->setInstructionIdentification(3)
                                 ->setCreditInvoice(1223)
                                 ->setInstructedAmount(100.5)
@@ -95,7 +102,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setIBAN('MD24 AG000225100013104168')
                         )
                         ->addCreditTransferTransaction(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLCreditTransferTransaction()
+                            XmlGeneratorFactory::createXMLCreditTransferTransaction()
                                 ->setInstructionIdentification(4)
                                 ->setCreditInvoice(1223)
                                 ->setInstructedAmount(50.5)
@@ -104,7 +111,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setIBAN('MD24 AG000225100013104168')
                         )
                         ->addCreditTransferTransaction(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLCreditTransferTransaction()
+                            XmlGeneratorFactory::createXMLCreditTransferTransaction()
                                 ->setInstructionIdentification(4)
                                 ->setCreditInvoice(1223)
                                 ->setInstructedAmount(25.5)
@@ -118,19 +125,23 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(file_exists($fileExist));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateCreditTransferXmlFile00100103()
     {
-        $xmlFile = SEPA\Factory\XMLGeneratorFactory::createXmlGeneratorObject(\SEPA\XMLGenerator::PAIN_001_001_03)->addXmlMessage(
-            SEPA\Factory\XMLGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
+        $xmlFile = XmlGeneratorFactory::createXmlGeneratorObject(XMLGenerator::PAIN_001_001_03)
+            ->addXmlMessage(
+            XmlGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
 
-                SEPA\Factory\XMLGeneratorFactory::createXMLGroupHeader()
+                XmlGeneratorFactory::createXMLGroupHeader()
                     ->setMessageIdentification(1)
                     ->setInitiatingPartyName('Amazing SRL ???? ыаывпавпва')
                     ->setOrganisationIdentification('0000000000')
                     ->setIssuer('KBO-BCE')
             )
                 ->addMessagePaymentInfo(
-                    SEPA\Factory\XMLGeneratorFactory::createXMLPaymentInfo()
+                    XmlGeneratorFactory::createXMLPaymentInfo()
                         ->setAggregatePerMandate(false)
                         ->setPaymentInformationIdentification(6222)
                         ->setDebitorAccountIBAN('MD24 AG00 0225 1000 1310 4168')
@@ -138,7 +149,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                         ->setDebitorName('Amazing SRL')
                         ->setRequestedCollectionDate('2013-08-06')
                         ->addCreditTransferTransaction(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLCreditTransferTransaction()
+                            XmlGeneratorFactory::createXMLCreditTransferTransaction()
                                 ->setInstructionIdentification(3)
                                 ->setEndToEndIdentification(1)
                                 ->setCreditInvoice(1223)
@@ -148,7 +159,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setIBAN('MD24 AG000225100013104168')
                         )
                         ->addCreditTransferTransaction(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLCreditTransferTransaction()
+                            XmlGeneratorFactory::createXMLCreditTransferTransaction()
                                 ->setInstructionIdentification(4)
                                 ->setEndToEndIdentification(1)
                                 ->setCreditInvoice(1223)
@@ -158,7 +169,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setIBAN('MD24 AG000225100013104168')
                         )
                         ->addCreditTransferTransaction(
-                            SEPA\Factory\XmlGeneratorFactory::createXMLCreditTransferTransaction()
+                            XmlGeneratorFactory::createXMLCreditTransferTransaction()
                                 ->setInstructionIdentification(4)
                                 ->setEndToEndIdentification(1)
                                 ->setCreditInvoice(1223)
@@ -173,15 +184,18 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(file_exists($fileExist));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testSaveGeneratedXMLFile()
     {
-        SEPA\Factory\XMLGeneratorFactory::createXmlGeneratorObject()->addXmlMessage(
-            SEPA\Factory\XMLGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
-                SEPA\Factory\XMLGeneratorFactory::createXMLGroupHeader()
+        XmlGeneratorFactory::createXmlGeneratorObject()->addXmlMessage(
+            XmlGeneratorFactory::createXMLMessage()->setMessageGroupHeader(
+                XmlGeneratorFactory::createXMLGroupHeader()
                     ->setMessageIdentification(1)
                     ->setInitiatingPartyName('Amazing SRL ???? ыаывпавпва'))
                 ->addMessagePaymentInfo(
-                    SEPA\Factory\XMLGeneratorFactory::createXMLPaymentInfo()
+                    XmlGeneratorFactory::createXMLPaymentInfo()
                         ->setPaymentInformationIdentification(6222)
                         ->setSequenceType('FRST')
                         ->setCreditorAccountIBAN('MD24 AG00 0225 1000 1310 4168')
@@ -190,7 +204,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                         ->setRequestedCollectionDate('2013-08-06')
                         ->setAggregatePerMandate(true) //Default option = true
                         ->addDirectDebitTransaction( //First transaction
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(3)
                                 ->setEndToEndIdentification(3)
                                 ->setInstructedAmount(100.5)
@@ -203,7 +217,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setDirectDebitInvoice(122)
                         )
                         ->addDirectDebitTransaction( //Second transaction are the same client transaction
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(4)
                                 ->setEndToEndIdentification(4)
                                 ->setInstructedAmount(100.5)
@@ -214,8 +228,8 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
                                 ->setDateOfSignature('2013-08-03')
 //						->setCurrency('EUR')
                                 ->setDirectDebitInvoice(122))
-                        ->addDirectDebitTransaction( //An other client Transaction
-                            SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+                        ->addDirectDebitTransaction( // Another client Transaction
+                            XmlGeneratorFactory::createXMLDirectDebitTransaction()
                                 ->setInstructionIdentification(6)
                                 ->setEndToEndIdentification(6)
                                 ->setInstructedAmount(100.5)
@@ -232,9 +246,12 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(file_exists($fileExist));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateTransaction()
     {
-        $transactionSimpleXml = SEPA\Factory\XmlGeneratorFactory::createXMLDirectDebitTransaction()
+        $transactionSimpleXml = XmlGeneratorFactory::createXMLDirectDebitTransaction()
             ->setInstructionIdentification(6)
             ->setEndToEndIdentification(6)
             ->setInstructedAmount(100.5)
@@ -243,7 +260,7 @@ class XMLGeneratorFactoryTest extends \PHPUnit\Framework\TestCase
             ->setDebitBIC('AABAFI22')
             ->setMandateIdentification('SDD000000016PFX0714') //unique Identifier
             ->setDateOfSignature('2013-08-03')
-            ->setPaymentMethod(SEPA\PaymentInfo::PAYMENT_METHOD_DIRECT_DEBIT)
+            ->setPaymentMethod(PaymentInfo::PAYMENT_METHOD_DIRECT_DEBIT)
 //		    ->setCurrency('EUR')
             ->setDirectDebitInvoice(122)->getSimpleXMLElementPaymentInfo();
 

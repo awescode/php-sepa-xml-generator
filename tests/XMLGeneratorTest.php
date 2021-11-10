@@ -1,11 +1,16 @@
 <?php
 
-class XmlGeneratorTest extends \PHPUnit\Framework\TestCase
+namespace Tests;
+
+use PHPUnit\Framework\TestCase;
+use SEPA\XMLGenerator;
+
+class XMLGeneratorTest extends TestCase
 {
     public function testOne()
     {
-        $xmlGenerator = new \SEPA\XMLGenerator();
+        $xmlGenerator = new XMLGenerator();
 
-        $this->assertTrue($xmlGenerator instanceof \SEPA\XMLGenerator);
+        $this->assertTrue($xmlGenerator instanceof XMLGenerator);
     }
 }
