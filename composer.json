@@ -1,5 +1,5 @@
 {
-    "name": "awescode/php-sepa-xml-generator",
+    "name": "dmitrirussu/php-sepa-xml-generator",
     "type": "library",
     "description": "Creates an XML file for a Single Euro Payments Area (SEPA) Direct Debit Payment.",
     "keywords": [
